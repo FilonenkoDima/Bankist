@@ -16,7 +16,7 @@ const account2 = {
 };
 
 const account3 = {
-  owner: "Denis Petrenko",
+  owner: "Petrenko Denis Oleksandrovich",
   movements: [200, -200, 340, -300, -20, 50, 400, -460],
   interestRate: 0.7, // %
   pin: 3333,
@@ -75,3 +75,16 @@ const displayMovements = function (movements) {
   });
 };
 displayMovements(account1.movements);
+
+const createUsernames = (accs) => {
+  accs.forEach(function (acc) {
+    acc.username = acc.owner
+      .toLowerCase()
+      .split(" ")
+      .map((name) => name[0])
+      .join("");
+  });
+};
+
+createUsernames(accounts);
+console.log(accounts);
