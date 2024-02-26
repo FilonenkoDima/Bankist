@@ -243,6 +243,8 @@ btnSort.addEventListener("click", function (e) {
   displayMovements(currentAccount.movements, sorted);
 });
 
+//study process
+
 // Array from UI
 
 labelBalance.addEventListener("click", function () {
@@ -255,4 +257,13 @@ labelBalance.addEventListener("click", function () {
 
   const movementsUI2 = [...document.querySelectorAll(".movements__value")];
   console.log(movementsUI2);
+});
+
+labelBalance.addEventListener("click", function () {
+  [...document.querySelectorAll(".movements__row")].forEach(function (row, i) {
+    // 0, 2, 4, 6
+    if (i % 2 === 0) row.style.backgroundColor = "orangered";
+    // 0, 3, 6, 9
+    if (i % 3 === 0) row.style.backgroundColor = "blue";
+  });
 });
