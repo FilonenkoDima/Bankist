@@ -13,9 +13,9 @@ const account1 = {
     "2020-01-28T09:15:04.904Z",
     "2020-04-01T10:17:24.185Z",
     "2020-05-08T14:11:59.604Z",
-    "2020-05-27T17:01:17.194Z",
-    "2020-07-11T23:36:17.929Z",
-    "2020-07-12T10:51:36.790Z",
+    "2024-05-18T17:01:17.194Z",
+    "2024-05-21T23:36:17.929Z",
+    "2024-05-22T10:51:36.790Z",
   ],
   currency: "USD",
   locale: "en-US", // de-DE
@@ -55,7 +55,7 @@ const account4 = {
   pin: 4444,
 };
 
-const accounts = [account1, account2, account3, account4];
+const accounts = [account1, account2];
 
 // Elements
 const labelWelcome = document.querySelector(".welcome");
@@ -85,6 +85,23 @@ const inputClosePin = document.querySelector(".form__input--pin");
 
 //////////////////// FUNCTIONS
 
+const formatMovementDate = (date) => {
+  const calcDaysPassed = (date1, date2) =>
+    Math.round(Math.abs(date2 - date1) / 1000 / 60 / 60 / 24);
+
+  const daysPassed = calcDaysPassed(new Date(), date);
+  console.log(daysPassed);
+
+  if (daysPassed === 0) return "Today";
+  if (daysPassed === 1) return "Yesterday";
+  if (daysPassed <= 7) return `${daysPassed} days ago`;
+
+  const day = `${date.getDate()}`.padStart(2, 0);
+  const month = `${date.getMonth() + 1}`.padStart(2, 0);
+  const year = date.getFullYear();
+  return `${day}/${month}/${year}`;
+};
+
 const displayMovements = function (acc, sort = false) {
   containerMovements.innerHTML = "";
 
@@ -93,13 +110,10 @@ const displayMovements = function (acc, sort = false) {
     : acc.movements;
 
   movs.forEach(function (mov, i) {
-    const type = mov > 0 ? "deposit" : "withdrawal";
-
     const date = new Date(acc.movementsDates[i]);
-    const day = `${date.getDate()}`.padStart(2, 0);
-    const month = `${date.getMonth() + 1}`.padStart(2, 0);
-    const year = date.getFullYear();
-    const displayDate = `${day}/${month}/${year}`;
+    const displayDate = formatMovementDate(date);
+
+    const type = mov > 0 ? "deposit" : "withdrawal";
 
     const html = `
          <div class="movements__row">
@@ -164,9 +178,9 @@ const updateUI = function (acc) {
 let currentAccount;
 
 // FAKE ALWAYS LOGGED IN
-currentAccount = account1;
-updateUI(currentAccount);
-containerApp.style.opacity = 100;
+// currentAccount = account1;
+// updateUI(currentAccount);
+// containerApp.style.opacity = 100;
 
 // day/month/year
 
@@ -281,23 +295,23 @@ btnSort.addEventListener("click", function (e) {
 
 // Array from UI
 
-labelBalance.addEventListener("click", function () {
-  const movementsUI = Array.from(
-    document.querySelectorAll(".movements__value"),
-    (el) => Number(el.textContent.replace("$", ""))
-  );
+// labelBalance.addEventListener("click", function () {
+//   const movementsUI = Array.from(
+//     document.querySelectorAll(".movements__value"),
+//     (el) => Number(el.textContent.replace("$", ""))
+//   );
 
-  console.log(movementsUI);
+//   console.log(movementsUI);
 
-  const movementsUI2 = [...document.querySelectorAll(".movements__value")];
-  console.log(movementsUI2);
-});
+//   const movementsUI2 = [...document.querySelectorAll(".movements__value")];
+//   console.log(movementsUI2);
+// });
 
-labelBalance.addEventListener("click", function () {
-  [...document.querySelectorAll(".movements__row")].forEach(function (row, i) {
-    // 0, 2, 4, 6
-    if (i % 2 === 0) row.style.backgroundColor = "orangered";
-    // 0, 3, 6, 9
-    if (i % 3 === 0) row.style.backgroundColor = "blue";
-  });
-});
+// labelBalance.addEventListener("click", function () {
+//   [...document.querySelectorAll(".movements__row")].forEach(function (row, i) {
+//     // 0, 2, 4, 6
+//     if (i % 2 === 0) row.style.backgroundColor = "orangered";
+//     // 0, 3, 6, 9
+//     if (i % 3 === 0) row.style.backgroundColor = "blue";
+//   });
+// });
